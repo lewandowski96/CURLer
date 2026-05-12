@@ -12,7 +12,7 @@ struct HttpHeader {
 
 // exposing the func to react frontent
 #[tauri::command]
-fn execute_curl(method: &str, url: &str) -> Result<String, String> {
+fn execute_curl(method: &str, url: &str, headers: Vec<HttpHeader>) -> Result<String, String> {
 
     let mut args = vec![
         "-s".to_string(),
