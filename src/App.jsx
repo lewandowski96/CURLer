@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { invoke } from "@tauri-apps/api/core";
+import "./App.css";
 
 function App() {
   const [url, setUrl] = useState("https://httpbin.org/get");
@@ -74,17 +75,5 @@ function App() {
     </div>    
   );
 }
-
-const styles = {
-  container: { padding: "20px", background: "#121212", color: "#eee", minHeight: "100vh", fontFamily: "monospace" },
-  form: { display: "flex", gap: "10px", marginBottom: "20px" },
-  input: { background: "#222", border: "1px solid #444", color: "#fff", padding: "8px" },
-  button: { background: "#007acc", color: "#fff", border: "none", padding: "8px 15px", cursor: "pointer" },
-  headerSection: { marginBottom: "20px", borderTop: "1px solid #333", paddingTop: "10px" },
-  headerRow: { display: "flex", gap: "5px", marginBottom: "5px" },
-  addBtn: { background: "none", border: "1px dashed #555", color: "#888", cursor: "pointer", marginTop: "5px" },
-  delBtn: { background: "#442222", color: "#ff8888", border: "none", cursor: "pointer" },
-  responseBox: { background: "#000", padding: "15px", border: "1px solid #333", overflow: "auto", maxHeight: "400px" }
-};
 
 export default App;
