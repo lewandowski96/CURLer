@@ -12,7 +12,12 @@ struct HttpHeader {
 
 // exposing the func to react frontent
 #[tauri::command]
-fn execute_curl(method: &str, url: &str, headers: Vec<HttpHeader>) -> Result<String, String> {
+fn execute_curl(
+    method: &str, 
+    url: &str, 
+    headers: Vec<HttpHeader>,
+    body: Option<String>
+    ) -> Result<String, String> {
 
     let mut args = vec![
         "-s".to_string(),
@@ -25,6 +30,14 @@ fn execute_curl(method: &str, url: &str, headers: Vec<HttpHeader>) -> Result<Str
         if !header.key.is_empty() {
             args.push("-H".to_string());
             args.push(format!("{}: {}", header.key, header.value));
+        }
+    }
+
+    // append body if present
+    if let Some(b) = body {
+        if !b.is_empty() {
+            args.push("-d".to_string());
+            args.push(b);
         }
     }
 
