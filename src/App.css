@@ -12,6 +12,13 @@
   margin-bottom: 20px;
 }
 
+.input-field-method {
+  background: #222;
+  border: 1px solid #444;
+  /*color: #fff;*/
+  padding: 8px;
+}
+
 .input-field {
   background: #222;
   border: 1px solid #444;
@@ -79,4 +86,33 @@
   border: 1px solid #333;
   overflow: auto;
   max-height: 400px;
+}
+
+.body-section {
+  margin-bottom: 20px;
+  border-top: 1px solid #333;
+  padding-top: 10px;
+}
+
+.body-textarea {
+  width: 100%;
+  height: 150px;
+  background: #1a1a1a;
+  color: #00ff41; /* Classic terminal green for the editor */
+  border: 1px solid #444;
+  padding: 10px;
+  font-family: 'Fira Code', 'JetBrains Mono', monospace;
+  resize: vertical;
+  outline: none;
+}
+
+.body-textarea:focus {
+  border-color: #007acc;
+}
+
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
 }

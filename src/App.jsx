@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { invoke } from "@tauri-apps/api/core";
 import "./App.css";
 
@@ -6,7 +6,16 @@ function App() {
   const [url, setUrl] = useState("https://httpbin.org/get");
   const [method, setMethod] = useState("GET");
   const [headers, setHeaders] = useState([{ key: "Content-Type", value: "application/json" }]);
+  const [body, setBody] = useState('{}');
   const [response, setResponse] = useState("");
+  const [showBody, setShowBody] = useState(true);
+
+  //show the body section automatically for obvious method types
+  useEffect(() => {
+    if (["POST", "PUT", "PATCH"].includes(method)) {
+      setShowBody(true);
+    }
+  }, [method]);
 
   const addHeader = () => setHeaders([...headers, { key: "", value: "" }]);
 
@@ -26,7 +35,12 @@ function App() {
 
     try {
       // call rust backend
-      const result = await invoke("execute_curl", { method, url, headers });
+      const result = await invoke("execute_curl", { 
+        method, 
+        url, 
+        headers,
+        body: showBody ? body : null
+      });
       setResponse(result);
     } catch (error) {
       setResponse(`Error: ${error}`);
@@ -34,45 +48,68 @@ function App() {
   }
 
   return (
-    <div style={styles.container}>
-      <h3>Postman Lite (Powered by Curl)</h3>
+    <div className="container">
+      <h3>CURLer!</h3>
       
-      <form onSubmit={handleRequest} style={styles.form}>
-        <select value={method} onChange={(e) => setMethod(e.target.value)} style={styles.input}>
+      <form onSubmit={handleRequest} className="form-group">
+        <select value={method} onChange={(e) => setMethod(e.target.value)} className="input-field-method">
           <option>GET</option><option>POST</option><option>PUT</option><option>DELETE</option>
         </select>
         <input 
-          style={{ ...styles.input, flex: 1 }} 
+          className="input-field url-input"
           value={url} 
           onChange={(e) => setUrl(e.target.value)} 
         />
-        <button type="submit" style={styles.button}>Send</button>
+        <button type="submit" className="primary-button">Send</button>
       </form>
 
-      <div style={styles.headerSection}>
+      <div className="header-section">
         <p><strong>Headers</strong></p>
         {headers.map((h, i) => (
-          <div key={i} style={styles.headerRow}>
+          <div key={i} className="header-row">
             <input 
               placeholder="Key" 
               value={h.key} 
               onChange={(e) => updateHeader(i, "key", e.target.value)} 
-              style={styles.input}
+              className="input-field"
             />
             <input 
               placeholder="Value" 
               value={h.value} 
               onChange={(e) => updateHeader(i, "value", e.target.value)} 
-              style={styles.input}
+              className="input-field"
             />
-            <button onClick={() => removeHeader(i)} style={styles.delBtn}>×</button>
+            <button onClick={() => removeHeader(i)} className="delete-button">×</button>
           </div>
         ))}
-        <button onClick={addHeader} style={styles.addBtn}>+ Add Header</button>
+        <button onClick={addHeader} className="add-button">+ Add Header</button>
+      </div>
+      
+      <div className="body-section">
+        <div className="section-header">
+          <strong>Body</strong>
+          <button
+            type="button"
+            className="add-button"
+            onClick={() => setShowBody(!showBody)}
+          >
+            {showBody ? "Hide Body" : "Show Body"}
+          </button>
+        </div>
+
+        {showBody && (
+          <textarea
+            className="body-textarea"
+            value={body}
+            onChange={(e) => setBody(e.target.value)}
+            spellCheck="false"
+            placeholder='{"key": "value"}'
+          />
+        )}
       </div>
 
-      <pre style={styles.responseBox}>{response}</pre>
-    </div>    
+      <pre className="response-box">{response}</pre>
+    </div>
   );
 }
 
