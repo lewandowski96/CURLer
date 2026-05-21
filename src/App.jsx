@@ -9,6 +9,7 @@ function App() {
   const [body, setBody] = useState('{}');
   const [response, setResponse] = useState("");
   const [showBody, setShowBody] = useState(true);
+  const [copied, setCopied] = useState(false);
 
   //show the body section automatically for obvious method types
   useEffect(() => {
@@ -47,9 +48,22 @@ function App() {
     }
   }
 
+  const handleCopy = async () => {
+    if (!response || response === "CURLing...") return;
+    try {
+      await navigator.clipboard.writeText(response);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    } catch (err) {
+      console.error("Failed to copy text: ", err);
+    }
+  };
+
   return (
     <div className="container">
       <h3>CURLer!</h3>
+
+      <p>Send and receive letters without bloat. Unlike some postmen.</p>
       
       <form onSubmit={handleRequest} className="form-group">
         <select value={method} onChange={(e) => setMethod(e.target.value)} className="input-field-method">
@@ -108,7 +122,21 @@ function App() {
         )}
       </div>
 
-      <pre className="response-box">{response}</pre>
+      <div className="response-section">
+        <div className="response-header">
+          <strong>Response</strong>
+          {response && response !== "CURLing..." && (
+            <button
+              type="button"
+              className={`copy-button ${copied ? "success" : ""}`}
+              onClick={handleCopy}
+            >
+              {copied ? "✓ Copied!" : "📋 Copy"}
+            </button>
+          )}
+        </div>  
+        <pre className="response-box">{response}</pre>
+      </div>
     </div>
   );
 }
