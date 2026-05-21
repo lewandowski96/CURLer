@@ -10,6 +10,8 @@ function App() {
   const [response, setResponse] = useState("");
   const [showBody, setShowBody] = useState(true);
   const [copied, setCopied] = useState(false);
+  const [isMethodOpen, setIsMethodOpen] = useState(false);
+  const HTTP_METHODS = ["GET", "POST", "PUT", "DELETE", "PATCH"];
 
   //show the body section automatically for obvious method types
   useEffect(() => {
@@ -60,15 +62,46 @@ function App() {
   };
 
   return (
-    <div className="container">
+    <div className="container" onClick={() => setIsMethodOpen(false)}>
       <h3>CURLer!</h3>
 
-      <p>Send and receive letters without bloat. Unlike some postmen.</p>
-      
+      <p>Test your APIs without the bloat.</p>
+
       <form onSubmit={handleRequest} className="form-group">
-        <select value={method} onChange={(e) => setMethod(e.target.value)} className="input-field-method">
+        {/*<select value={method} onChange={(e) => setMethod(e.target.value)} className="input-field-method">
           <option>GET</option><option>POST</option><option>PUT</option><option>DELETE</option>
-        </select>
+        </select>*/}
+        {/* CUSTOM DROPDOWN*/}
+        <div className="custom-select-container" onClick={(e) => e.stopPropagation()}>
+          <div 
+            className="input-field custom-select-button" 
+            onClick={() => setIsMethodOpen(!isMethodOpen)}
+          >
+            <span className="custom-select-value">{method}</span>
+            {/* Minimal SVG Arrow */}
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--subtle)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+          </div>
+          
+          {isMethodOpen && (
+            <div className="custom-select-menu">
+              {HTTP_METHODS.map((m) => (
+                <div 
+                  key={m} 
+                  className="custom-select-option"
+                  onClick={() => {
+                    setMethod(m);
+                    setIsMethodOpen(false);
+                  }}
+                >
+                  {m}
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+        {/* END CUSTOM DROPDOWN */}
         <input 
           className="input-field url-input"
           value={url} 
@@ -78,7 +111,9 @@ function App() {
       </form>
 
       <div className="header-section">
-        <p><strong>Headers</strong></p>
+        <div className="section-header">
+          <strong>Headers</strong>
+        </div>
         {headers.map((h, i) => (
           <div key={i} className="header-row">
             <input 
@@ -98,7 +133,7 @@ function App() {
         ))}
         <button onClick={addHeader} className="add-button">+ Add Header</button>
       </div>
-      
+ 
       <div className="body-section">
         <div className="section-header">
           <strong>Body</strong>
@@ -134,7 +169,7 @@ function App() {
               {copied ? "✓ Copied!" : "📋 Copy"}
             </button>
           )}
-        </div>  
+        </div>
         <pre className="response-box">{response}</pre>
       </div>
     </div>
