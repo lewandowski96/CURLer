@@ -11,6 +11,8 @@ function App() {
   const [showBody, setShowBody] = useState(true);
   const [copied, setCopied] = useState(false);
   const [isMethodOpen, setIsMethodOpen] = useState(false);
+  const [responseTab, setResponseTab] = useState("body");
+
   const HTTP_METHODS = ["GET", "POST", "PUT", "DELETE", "PATCH"];
 
   //show the body section automatically for obvious method types
@@ -35,7 +37,7 @@ function App() {
   async function  handleRequest(e) {
     e.preventDefault();
     setResponse("CURLing...");
-
+    setIsMethodOpen(false);
     try {
       // call rust backend
       const result = await invoke("execute_curl", { 
@@ -45,15 +47,16 @@ function App() {
         body: showBody ? body : null
       });
       setResponse(result);
+      setResponseTab("body");
     } catch (error) {
       setResponse(`Error: ${error}`);
     }
   }
 
-  const handleCopy = async () => {
-    if (!response || response === "CURLing...") return;
+  const handleCopy = async (textToCopy) => {
+    if (!textToCopy || response === "CURLing...") return;
     try {
-      await navigator.clipboard.writeText(response);
+      await navigator.clipboard.writeText(textToCopy);
       setCopied(true);
       setTimeout(() => setCopied(false), 2000);
     } catch (err) {
@@ -61,11 +64,50 @@ function App() {
     }
   };
 
+  let parsedHeaders = "";
+  let parsedBody = "";
+  let statusCode = "";
+  let statusText = "";
+  let isErrorStatus = false;
+
+  if (response && response !== "CURLing..." && !response.startsWith("Error:")) {
+    // seperate headers and body
+    const parts = response.split(/\r?\n\r?\n/);
+    
+    // in case of '100 Continue'
+    if (parts.length >= 2) {
+      parsedHeaders = parts.slice(0, -1).join("\n\n");
+      let rawBody = parts[parts.length - 1];
+
+      // Extract status code from the first line of headers
+      const firstLine = parsedHeaders.split('\n')[0];
+      const match = firstLine.match(/HTTP\/\S+\s+(\d+)\s+(.*)/);
+      if (match) {
+        statusCode = match[1];
+        statusText = match[2];
+        isErrorStatus = parseInt(statusCode) >= 400;
+      }
+
+      // format JSON beautifully
+      try {
+        parsedBody = JSON.stringify(JSON.parse(rawBody), null, 2);
+      } catch (error) {
+        parsedBody = rawBody;
+      }
+    } else {
+      parsedBody = response;
+    }
+  } else {
+    parsedBody = response;
+  }
+
+  const displayContent = responseTab === "body" ? parsedBody : parsedHeaders;
+
   return (
     <div className="container" onClick={() => setIsMethodOpen(false)}>
       <h3>CURLer!</h3>
 
-      <p>Test your APIs without the bloat.</p>
+      <p>Just test your APIs without the bloat.</p>
 
       <form onSubmit={handleRequest} className="form-group">
         {/*<select value={method} onChange={(e) => setMethod(e.target.value)} className="input-field-method">
@@ -83,7 +125,7 @@ function App() {
               <polyline points="6 9 12 15 18 9"></polyline>
             </svg>
           </div>
-          
+ 
           {isMethodOpen && (
             <div className="custom-select-menu">
               {HTTP_METHODS.map((m) => (
@@ -160,17 +202,44 @@ function App() {
       <div className="response-section">
         <div className="response-header">
           <strong>Response</strong>
-          {response && response !== "CURLing..." && (
+        </div>
+        <div className="response-controls">
+          <div className="response-tabs">
             <button
               type="button"
-              className={`copy-button ${copied ? "success" : ""}`}
-              onClick={handleCopy}
+              className={`tab-button ${responseTab === "body" ? "active" : ""}`}
+              onClick={() => setResponseTab("body")}
             >
-              {copied ? "✓ Copied!" : "📋 Copy"}
+              Body
             </button>
-          )}
+            <button
+              type="button"
+              className={`tab-button ${responseTab === "headers" ? "active" : ""}`}
+              onClick={() => setResponseTab("headers")}
+            >
+              Headers
+            </button>
+          </div>
+
+          <div className="response-actions">
+            {statusCode && (
+              <div className={`status-badge ${isErrorStatus ? "error" : "success"}`}>
+                {statusCode} {statusText}
+              </div>
+            )}
+
+            {response && response !== "CURLing..." && (
+              <button
+                type="button"
+                className={`copy-button ${copied ? "success" : ""}`}
+                onClick={() => handleCopy(displayContent)}
+              >
+                {copied ? "✓ Copied!" : "📋 Copy"}
+              </button>
+            )}
+          </div>
         </div>
-        <pre className="response-box">{response}</pre>
+        <pre className="response-box">{displayContent}</pre>
       </div>
     </div>
   );
