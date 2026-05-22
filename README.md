@@ -28,6 +28,5 @@ This application is designed with Linux in mind. To compile it from source on Ar
 Ensure you have Rust, Node.js, and the WebKitGTK development packages installed:
 ````
 
-```bash
 sudo pacman -S base-devel curl rustup nodejs npm webkit2gtk-4.1
 rustup default stable
