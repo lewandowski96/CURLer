@@ -30,3 +30,9 @@ Ensure you have Rust, Node.js, and the WebKitGTK development packages installed:
 
 sudo pacman -S base-devel curl rustup nodejs npm webkit2gtk-4.1
 rustup default stable
+
+### 2. Clone and Build
+git clone https://github.com/lewandowski96/CURLer.git
+cd CURLer
+
+
