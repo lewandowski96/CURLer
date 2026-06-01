@@ -71,4 +71,4 @@ Contributions are welcome! If you want to add features (like saving request hist
 
 Distributed under the MIT License. See LICENSE for more information.
 
-Crafted by KSanjnN for the Linux community.
+Crafted by [KSanjnN](https://www.linkedin.com/in/ksanjeen/) for the Linux community.
