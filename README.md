@@ -1,5 +1,5 @@
 <div align="center">
-<img src="./public/icon.svg" alt="CURLer Logo" width="120" />
+<img src="./src/assets/icon.svg" alt="CURLer Logo" width="120" />
 
 # CURLer
 
