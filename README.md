@@ -1,26 +1,39 @@
-# CURLer!
+# ⚡️ CURLer
 
-> A lightning-fast, bloat-free API client for Linux. Powered by `curl`, built with Tauri.
+<div align="center">
+
+![Platform](https://img.shields.io/badge/platform-Linux-blue?style=for-the-badge&logo=linux&logoColor=fff&color=26233a&labelColor=191724)
+![Display Server](https://img.shields.io/badge/display-Wayland-blue?style=for-the-badge&logo=wayland&logoColor=fff&color=31748f&labelColor=191724)
+![Engine](https://img.shields.io/badge/engine-curl-blue?style=for-the-badge&logo=curl&logoColor=fff&color=9ccfd8&labelColor=191724)
+![Theme](https://img.shields.io/badge/theme-Rosé_Pine-blue?style=for-the-badge&logo=visual-studio-code&logoColor=ebbcba&color=c4a7e7&labelColor=191724)
+
+<p align="center">
+  <strong>A lightning-fast, bloat-free API client for Linux. Powered by <code>curl</code>, built with Tauri.</strong>
+</p>
+
+</div>
+
+---
 
 Are you tired of launching a 500MB Electron application just to send a simple POST request? API testing shouldn't require a Chromium instance. 
 
 This project is a minimalist, native desktop wrapper around your system's `curl` binary. It gives you the visual organization of modern API clients with the raw speed, zero-CORS freedom, and reliability of the command line.
 
-![App Screenshot](./screenshot.png)
+![App Screenshot](./public/app_screenshot.png)
 
-## Features
+## ✨ Features
 
-* **Zero Bloat:** Compiles down to a tiny, native executable. No Electron, no heavy frameworks.
-* **Wayland First:** Runs natively on modern Linux compositors (Hyprland, Sway) via WebKitGTK.
-* **CORS? Never heard of her:** Because requests are executed at the system level via `curl`, browser security policies will never block your API calls.
-* **Intelligent Parsing:** Automatically parses raw HTTP responses, extracts status codes, and pretty-prints JSON payloads.
-* **Rosé Pine Aesthetic:** Carefully themed using the low-contrast, minimal Rosé Pine (Dark) color palette for late-night hacking sessions.
+* **📦 Zero Bloat:** Compiles down to a tiny, native executable. No Electron, no heavy frameworks.
+* **🌀 Wayland First:** Runs natively on modern Linux compositors (Hyprland, Sway) via WebKitGTK.
+* **🛡️ CORS? Never heard of her:** Because requests are executed at the system level via `curl`, browser security policies will never block your API calls.
+* **⚙️ Intelligent Parsing:** Automatically parses raw HTTP responses, extracts status codes, and pretty-prints JSON payloads.
+* **🌹 Rosé Pine Aesthetic:** Carefully themed using the low-contrast, minimal Rosé Pine (Dark) color palette for late-night hacking sessions.
 
-## How it Works
+## 🚀 How it Works
 
 Under the hood, the Tauri (Rust) backend intercepts your UI inputs and constructs a secure `std::process::Command` array, spawning the `curl` binary already installed on your system. It captures standard output, parses the HTTP spec, and serves it back to a clean React frontend.
 
-## Installation & Build (Arch Linux)
+## 🛠️ Installation & Build (Arch Linux)
 
 This application is designed with Linux in mind. To compile it from source on Arch-based distributions:
 
@@ -60,4 +73,4 @@ Contributions are welcome! If you want to add features (like saving request hist
 
 Distributed under the MIT License. See LICENSE for more information.
 
-Crafted by KSanjnN for the Linux developer community.
+Crafted by KSanjnN for the Linux community.
