@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { invoke } from "@tauri-apps/api/core";
 import "./App.css";
+import AppIcon from "./assets/AppIcon.jsx";
 
 function App() {
   const [url, setUrl] = useState("https://httpbin.org/get");
@@ -105,7 +106,10 @@ function App() {
 
   return (
     <div className="container" onClick={() => setIsMethodOpen(false)}>
-      <h3>CURLer!</h3>
+      <div className="app-title-container">
+        <AppIcon size={28} />
+        <h3>CURLer!</h3>
+      </div>
 
       <p>Just test your APIs without the bloat.</p>
 
