@@ -31,9 +31,32 @@ This project is a minimalist, native desktop wrapper around your system's `curl`
 
 Under the hood, the Tauri (Rust) backend intercepts your UI inputs and constructs a secure `std::process::Command` array, spawning the `curl` binary already installed on your system. It captures standard output, parses the HTTP spec, and serves it back to a clean React frontend.
 
-## Installation & Build (Arch Linux)
+## Installation
 
-This application is designed with Linux in mind. To compile it from source on Arch-based distributions:
+Go to the releases section and download the binary.
+
+From the downloaded directory run the below command. Make sure `.local/bin` is in your PATH.
+```
+mv CURLer ~/.local/bin/
+```
+Next create the file `CURLer.desktop` inside the directory `~/.local/share/applications` using your favorite editor and paste the below lines in there.
+
+You can either download the `app-icon.svg` from the repo and then reference that or use your own icon.
+
+```
+[Desktop Entry]
+Type=Application
+Name=CURLer
+Comment=Minimalist curl-powered API client
+Exec=/home/yourusername/.local/bin/CURLer
+Icon=/home/yourusername/path/to/your/app-icon.svg
+Terminal=false
+Categories=Development;Network;
+```
+
+Next run it from your app launcher! :)
+
+## Building From Source
 
 ### Install System Dependencies
 Ensure you have Rust, Node.js, and the WebKitGTK development packages installed:
@@ -55,6 +78,8 @@ npm run tauri dev
 # Or compile the final native release binary!
 npm run tauri build
 ````
+If you encounter `failed to run linuxdeploy` error during the building process run the build command again with the `NO_STRIP=true` flag at the beginning.
+
 The compiled executable will be located in `src-tauri/target/release/`
 
 ## Contributing
