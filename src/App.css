@@ -1,345 +1,391 @@
 @font-face {
-  font-family: 'JBML';
-  src: url('./assets/fonts/JetBrainsMono-Medium.ttf') format('truetype');
-  font-weight: 400;
-  font-style: normal;
+    font-family: "JBML";
+    src: url("./assets/fonts/JetBrainsMono-Medium.ttf") format("truetype");
+    font-weight: 400;
+    font-style: normal;
 }
 
 :root {
-  --base: #191724;
-  --surface: #1f1d2e;
-  --overlay: #26233a;
-  --muted: #6e6a86;
-  --subtle: #908caa;
-  --text: #e0def4;
-  --love: #eb6f92;
-  --rose: #ebbcba;
-  --pine: #31748f;
-  --foam: #9ccfd8;
-  --iris: #c4a7e7;
-  --highlight-med: #403d52;
+    --base: #191724;
+    --surface: #1f1d2e;
+    --overlay: #26233a;
+    --muted: #6e6a86;
+    --subtle: #908caa;
+    --text: #e0def4;
+    --love: #eb6f92;
+    --rose: #ebbcba;
+    --pine: #31748f;
+    --foam: #9ccfd8;
+    --iris: #c4a7e7;
+    --highlight-med: #403d52;
 }
 
 .container {
-  padding: 30px;
-  background: var(--base);
-  color: var(--text);
-  min-height: 100vh;
-  font-family: 'JBML', monospace;
-  box-sizing: border-box;
+    padding: 30px;
+    background: var(--base);
+    color: var(--text);
+    min-height: 100vh;
+    font-family: "JBML", monospace;
+    box-sizing: border-box;
 }
 
 h3 {
-  color: var(--rose);
-  font-weight: 500;
-  margin-top: 0;
-  margin-bottom: 25px;
-  letter-spacing: -0.5px;
+    color: var(--rose);
+    font-weight: 500;
+    margin-top: 0;
+    margin-bottom: 25px;
+    letter-spacing: -0.5px;
 }
 
 .form-group {
-  display: flex;
-  gap: 12px;
-  margin-bottom: 30px;
+    display: flex;
+    gap: 12px;
+    margin-bottom: 30px;
 }
 
 .input-field {
-  background: var(--surface);
-  border: 1px solid var(--overlay);
-  color: var(--text);
-  padding: 10px 14px;
-  border-radius: 6px;
-  font-family: inherit;
-  font-size: 14px;
-  transition: border-color 0.2s ease, box-shadow 0.2s ease;
-  outline: none;
+    background: var(--surface);
+    border: 1px solid var(--overlay);
+    color: var(--text);
+    padding: 10px 14px;
+    border-radius: 6px;
+    font-family: inherit;
+    font-size: 14px;
+    transition:
+        border-color 0.2s ease,
+        box-shadow 0.2s ease;
+    outline: none;
 }
 
 .input-field:focus {
-  border-color: var(--pine);
-  box-shadow: 0 0 0 2px rgba(49, 116, 143, 0.2);
+    border-color: var(--pine);
+    box-shadow: 0 0 0 2px rgba(49, 116, 143, 0.2);
 }
 
 .input-field::placeholder {
-  color: var(--muted);
+    color: var(--muted);
 }
 
 .url-input {
-  flex: 1;
+    flex: 1;
 }
 
 .primary-button {
-  background: var(--pine);
-  color: var(--text);
-  border: none;
-  padding: 10px 20px;
-  border-radius: 6px;
-  cursor: pointer;
-  font-family: inherit;
-  font-weight: 600;
-  transition: background-color 0.2s ease, transform 0.1s ease;
+    background: var(--pine);
+    color: var(--text);
+    border: none;
+    padding: 10px 20px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-family: inherit;
+    font-weight: 600;
+    transition:
+        background-color 0.2s ease,
+        transform 0.1s ease;
 }
 
 .primary-button:hover {
-  background: var(--foam);
-  color: var(--base);
+    background: var(--foam);
+    color: var(--base);
 }
 
 .primary-button:active {
-  transform: translateY(1px);
+    transform: translateY(1px);
 }
 
-.header-section, .body-section, .response-section {
-  margin-bottom: 25px;
-  background: var(--surface);
-  border: 1px solid var(--overlay);
-  border-radius: 8px;
-  padding: 20px;
+.header-section,
+.body-section,
+.response-section {
+    margin-bottom: 25px;
+    background: var(--surface);
+    border: 1px solid var(--overlay);
+    border-radius: 8px;
+    padding: 20px;
 }
 
 .section-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 15px;
-  color: var(--subtle);
-  font-size: 14px;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+    color: var(--subtle);
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
 }
 
 .header-row {
-  display: flex;
-  gap: 8px;
-  margin-bottom: 8px;
+    display: flex;
+    gap: 8px;
+    margin-bottom: 8px;
 }
 
 .add-button {
-  background: transparent;
-  border: 1px dashed var(--muted);
-  color: var(--subtle);
-  cursor: pointer;
-  margin-top: 10px;
-  padding: 8px 14px;
-  border-radius: 6px;
-  font-family: inherit;
-  font-size: 13px;
-  transition: all 0.2s ease;
+    background: transparent;
+    border: 1px dashed var(--muted);
+    color: var(--subtle);
+    cursor: pointer;
+    margin-top: 10px;
+    padding: 8px 14px;
+    border-radius: 6px;
+    font-family: inherit;
+    font-size: 13px;
+    transition: all 0.2s ease;
 }
 
 .add-button:hover {
-  color: var(--text);
-  border-color: var(--subtle);
-  background: var(--highlight-med);
+    color: var(--text);
+    border-color: var(--subtle);
+    background: var(--highlight-med);
 }
 
 .delete-button {
-  background: transparent;
-  color: var(--love);
-  border: 1px solid transparent;
-  cursor: pointer;
-  padding: 8px 14px;
-  border-radius: 6px;
-  font-size: 16px;
-  line-height: 1;
-  transition: all 0.2s ease;
+    background: transparent;
+    color: var(--love);
+    border: 1px solid transparent;
+    cursor: pointer;
+    padding: 8px 14px;
+    border-radius: 6px;
+    font-size: 16px;
+    line-height: 1;
+    transition: all 0.2s ease;
 }
 
 .delete-button:hover {
-  background: rgba(235, 111, 146, 0.1);
-  border-color: rgba(235, 111, 146, 0.3);
+    background: rgba(235, 111, 146, 0.1);
+    border-color: rgba(235, 111, 146, 0.3);
 }
 
 .body-textarea {
-  width: 100%;
-  height: 150px;
-  background: var(--base);
-  color: var(--foam);
-  border: 1px solid var(--overlay);
-  border-radius: 6px;
-  padding: 15px;
-  font-family: inherit;
-  font-size: 14px;
-  resize: vertical;
-  outline: none;
-  box-sizing: border-box;
-  transition: border-color 0.2s ease;
+    width: 100%;
+    height: 150px;
+    background: var(--base);
+    color: var(--foam);
+    border: 1px solid var(--overlay);
+    border-radius: 6px;
+    padding: 15px;
+    font-family: inherit;
+    font-size: 14px;
+    resize: vertical;
+    outline: none;
+    box-sizing: border-box;
+    transition: border-color 0.2s ease;
 }
 
 .body-textarea:focus {
-  border-color: var(--iris);
+    border-color: var(--iris);
 }
 
 .response-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 12px;
-  color: var(--subtle);
-  font-size: 14px;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+    color: var(--subtle);
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
 }
 
 .copy-button {
-  background: var(--overlay);
-  border: 1px solid transparent;
-  color: var(--text);
-  padding: 6px 12px;
-  border-radius: 4px;
-  cursor: pointer;
-  font-family: inherit;
-  font-size: 12px;
-  transition: all 0.2s ease;
+    background: var(--overlay);
+    border: 1px solid transparent;
+    color: var(--text);
+    padding: 6px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-family: inherit;
+    font-size: 12px;
+    transition: all 0.2s ease;
 }
 
 .copy-button:hover {
-  background: var(--highlight-med);
-  color: var(--iris);
+    background: var(--highlight-med);
+    color: var(--iris);
 }
 
 .copy-button.success {
-  color: var(--pine);
-  border-color: var(--pine);
-  background: rgba(49, 116, 143, 0.1);
+    color: var(--pine);
+    border-color: var(--pine);
+    background: rgba(49, 116, 143, 0.1);
 }
 
 .response-box {
-  background: var(--base);
-  color: var(--text);
-  padding: 20px;
-  border-radius: 6px;
-  border: 1px solid var(--overlay);
-  overflow: auto;
-  max-height: 500px;
-  margin: 0;
-  font-size: 13px;
-  line-height: 1.5;
+    background: var(--base);
+    color: var(--text);
+    padding: 20px;
+    border-radius: 6px;
+    border: 1px solid var(--overlay);
+    overflow: auto;
+    max-height: 500px;
+    margin: 0;
+    font-size: 13px;
+    line-height: 1.5;
 }
 
 .custom-select-container {
-  position: relative;
-  width: 120px; /* Fixed width so it doesn't jump around */
+    position: relative;
+    width: 120px; /* Fixed width so it doesn't jump around */
 }
 
 .custom-select-button {
-  width: 75%;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  cursor: pointer;
+    width: 75%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
 }
 
 .custom-select-value {
-  color: var(--foam);
-  font-weight: 500;
+    color: var(--foam);
+    font-weight: 500;
 }
 
 .custom-select-menu {
-  position: absolute;
-  top: 100%;
-  left: 0;
-  width: 100%;
-  margin-top: 6px;
-  background: var(--surface);
-  border: 1px solid var(--overlay);
-  border-radius: 6px;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
-  z-index: 50; /* Ensure it stays on top of other elements */
-  overflow: hidden;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    margin-top: 6px;
+    background: var(--surface);
+    border: 1px solid var(--overlay);
+    border-radius: 6px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    z-index: 50; /* Ensure it stays on top of other elements */
+    overflow: hidden;
 }
 
 .custom-select-option {
-  padding: 10px 14px;
-  cursor: pointer;
-  color: var(--text);
-  font-size: 14px;
-  transition: background-color 0.1s ease, color 0.1s ease;
+    padding: 10px 14px;
+    cursor: pointer;
+    color: var(--text);
+    font-size: 14px;
+    transition:
+        background-color 0.1s ease,
+        color 0.1s ease;
 }
 
 .custom-select-option:hover {
-  background: var(--highlight-med);
-  color: var(--rose);
+    background: var(--highlight-med);
+    color: var(--rose);
 }
 
 /* Response Tabs & Status */
 .response-controls {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-end;
-  margin-bottom: 12px;
-  border-bottom: 1px solid var(--overlay);
-  padding-bottom: 8px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-bottom: 12px;
+    border-bottom: 1px solid var(--overlay);
+    padding-bottom: 8px;
 }
 
 .response-tabs {
-  display: flex;
-  gap: 15px;
+    display: flex;
+    gap: 15px;
 }
 
 .tab-button {
-  background: transparent;
-  border: none;
-  color: var(--muted);
-  font-family: inherit;
-  font-size: 14px;
-  cursor: pointer;
-  padding: 4px 0;
-  border-bottom: 2px solid transparent;
-  transition: all 0.2s ease;
+    background: transparent;
+    border: none;
+    color: var(--muted);
+    font-family: inherit;
+    font-size: 14px;
+    cursor: pointer;
+    padding: 4px 0;
+    border-bottom: 2px solid transparent;
+    transition: all 0.2s ease;
 }
 
 .tab-button:hover {
-  color: var(--text);
+    color: var(--text);
 }
 
 .tab-button.active {
-  color: var(--rose);
-  border-bottom-color: var(--rose);
-  font-weight: 500;
+    color: var(--rose);
+    border-bottom-color: var(--rose);
+    font-weight: 500;
 }
 
 .status-badge {
-  font-family: inherit;
-  font-size: 13px;
-  padding: 4px 8px;
-  border-radius: 4px;
-  font-weight: 600;
-  background: var(--overlay);
-  color: var(--text);
+    font-family: inherit;
+    font-size: 13px;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-weight: 600;
+    background: var(--overlay);
+    color: var(--text);
 }
 
 .status-badge.success {
-  background: rgba(49, 116, 143, 0.15); /* Pine */
-  color: var(--foam);
+    background: rgba(49, 116, 143, 0.15); /* Pine */
+    color: var(--foam);
 }
 
 .status-badge.error {
-  background: rgba(235, 111, 146, 0.15); /* Love */
-  color: var(--love);
+    background: rgba(235, 111, 146, 0.15); /* Love */
+    color: var(--love);
 }
 
 /* Add this near your response controls */
 .response-actions {
-  display: flex;
-  gap: 15px;
-  align-items: center;
+    display: flex;
+    gap: 15px;
+    align-items: center;
 }
 
 /* Removes the top margin specifically for buttons inside section headers */
 .section-header .add-button {
-  margin-top: 0;
+    margin-top: 0;
 }
 
 .app-title-container {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  margin-top: 0;
-  margin-bottom: 25px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-top: 0;
+    margin-bottom: 25px;
 }
 
 /* Override the default margin on the title since the container handles it now */
 .app-title-container h3 {
-  margin: 0; 
+    margin: 0;
+}
+
+.persistence-section {
+    margin-bottom: 25px;
+    background: var(--surface);
+    border: 1px solid var(--overlay);
+    border-radius: 8px;
+    padding: 20px;
+}
+
+.saved-requests-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 15px;
+}
+
+.saved-request-item {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    background: var(--overlay);
+    padding: 5px 10px;
+    border-radius: 4px;
+    border: 1px solid var(--highlight-med);
+}
+
+.saved-request-item button {
+    background: none;
+    border: none;
+    color: var(--text);
+    cursor: pointer;
+    font-size: 13px;
+    font-family: inherit;
+}
+
+.saved-request-item button:hover {
+    color: var(--rose);
 }
