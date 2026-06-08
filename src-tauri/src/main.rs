@@ -7,18 +7,17 @@ use std::process::Command;
 #[derive(Deserialize)]
 struct HttpHeader {
     key: String,
-    value: String
+    value: String,
 }
 
 // exposing the func to react frontent
 #[tauri::command]
 fn execute_curl(
-    method: &str, 
-    url: &str, 
+    method: &str,
+    url: &str,
     headers: Vec<HttpHeader>,
-    body: Option<String>
-    ) -> Result<String, String> {
-
+    body: Option<String>,
+) -> Result<String, String> {
     let mut args = vec![
         "-s".to_string(),
         "-i".to_string(),
@@ -59,8 +58,9 @@ fn execute_curl(
 }
 
 fn main() {
-    //my_curl_client_lib::run()
     tauri::Builder::default()
+        .plugin(tauri_plugin_store::Builder::new().build())
+        .plugin(tauri_plugin_opener::init())
         // registering the command for frontend to call
         .invoke_handler(tauri::generate_handler![execute_curl])
         .run(tauri::generate_context!())

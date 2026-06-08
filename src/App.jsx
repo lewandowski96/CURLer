@@ -1,7 +1,10 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { invoke } from "@tauri-apps/api/core";
+import { LazyStore } from "@tauri-apps/plugin-store";
 import "./App.css";
 import AppIcon from "./assets/AppIcon.jsx";
+
+const store = new LazyStore("settings.json");
 
 function App() {
   const [url, setUrl] = useState("https://httpbin.org/get");
@@ -18,22 +21,69 @@ function App() {
 
   // New state for persistence
   const [savedRequests, setSavedRequests] = useState([]);
+  const isInitialized = useRef(false);
 
   const HTTP_METHODS = ["GET", "POST", "PUT", "DELETE", "PATCH"];
 
   // Load saved requests on mount
   useEffect(() => {
-    const saved = localStorage.getItem("savedRequests");
-    if (saved) {
-      setSavedRequests(JSON.parse(saved));
+    async function initStorage() {
+      console.log("Storage: Initializing...");
+      try {
+        // Try to load from native store first
+        let saved = await store.get("savedRequests");
+        console.log("Storage: Loaded from native store:", saved);
+
+        // Migration: if nothing in native store, check localStorage
+        if (!saved) {
+          const local = localStorage.getItem("savedRequests");
+          if (local) {
+            console.log("Storage: Found data in localStorage, migrating...");
+            try {
+              saved = JSON.parse(local);
+              await store.set("savedRequests", saved);
+              await store.save();
+              console.log("Storage: Migration successful");
+            } catch (e) {
+              console.error("Storage: Failed to parse localStorage data", e);
+            }
+          }
+        }
+
+        if (saved) {
+          setSavedRequests(saved);
+        } else {
+          console.log("Storage: No saved data found anywhere");
+        }
+      } catch (err) {
+        console.error("Storage: Failed to initialize store", err);
+      } finally {
+        isInitialized.current = true;
+        console.log("Storage: Initialization complete");
+      }
     }
+    initStorage();
   }, []);
 
-  // Sync to localStorage
+  // Sync to native store
   useEffect(() => {
-    localStorage.setItem("savedRequests", JSON.stringify(savedRequests));
-  }, [savedRequests]);
+    async function syncStorage() {
+      if (!isInitialized.current) {
+        console.log("Storage: Sync skipped (not initialized)");
+        return;
+      }
 
+      console.log("Storage: Syncing to disk...", savedRequests);
+      try {
+        await store.set("savedRequests", savedRequests);
+        await store.save();
+        console.log("Storage: Sync successful");
+      } catch (err) {
+        console.error("Storage: Sync failed", err);
+      }
+    }
+    syncStorage();
+  }, [savedRequests]);
   const saveRequest = () => {
     const name = prompt("Enter a name for this request:");
     if (!name) return;
