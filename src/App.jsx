@@ -1,6 +1,6 @@
-import { useState, useEffect, useRef } from "react";
 import { invoke } from "@tauri-apps/api/core";
 import { LazyStore } from "@tauri-apps/plugin-store";
+import { useEffect, useRef, useState } from "react";
 import "./App.css";
 import AppIcon from "./assets/AppIcon.jsx";
 
@@ -22,6 +22,7 @@ function App() {
   // New state for persistence
   const [savedRequests, setSavedRequests] = useState([]);
   const isInitialized = useRef(false);
+  const [theme, setTheme] = useState(() => localStorage.getItem('app-theme') || 'dark');
 
   const HTTP_METHODS = ["GET", "POST", "PUT", "DELETE", "PATCH"];
 
@@ -97,6 +98,15 @@ function App() {
     };
     setSavedRequests([...savedRequests, newRequest]);
   };
+
+  useEffect(() => {
+    document.documentElement.setAttribute('data-theme', theme);
+    localStorage.setItem('app-theme', theme);
+  }, [theme]);
+
+  const toggleTheme = () => {
+    setTheme((prevTheme) => (prevTheme === 'dark' ? 'light' : 'dark'));
+  }
 
   const loadRequest = (request) => {
     setMethod(request.method);
@@ -384,9 +394,24 @@ function App() {
 
   return (
     <div className="container" onClick={() => setIsMethodOpen(false)}>
-      <div className="app-title-container">
-        <AppIcon size={28} />
-        <h3>CURLer!</h3>
+      <div className="header-wrapper">
+        <div className="app-title-container">
+          <AppIcon size={28} />
+          <h3>CURLer!</h3>
+        </div>
+
+        <div className="header-actions">
+          <div 
+            className="theme-switch" 
+            onClick={toggleTheme}
+            title={`Switch to ${theme === "dark" ? "Light" : "Dark"} Mode`}
+            role="switch"
+            aria-checked={theme === "light"}
+          >
+            <div className="theme-switch-thumb" />
+          </div>
+
+        </div>
       </div>
 
       <p>Just test your APIs without the bloat.</p>
