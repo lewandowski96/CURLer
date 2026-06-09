@@ -27,6 +27,9 @@
     min-height: 100vh;
     font-family: "JBML", monospace;
     box-sizing: border-box;
+    display: flex;
+    flex-direction: column; /* Add this */
+    zoom: var(--app-zoom, 1);
 }
 
 h3 {
@@ -343,8 +346,7 @@ h3 {
     display: flex;
     align-items: center;
     gap: 12px;
-    margin-top: 0;
-    margin-bottom: 25px;
+    margin: 0; /* Removed bottom margin since wrapper handles it now */
 }
 
 /* Override the default margin on the title since the container handles it now */
@@ -388,4 +390,121 @@ h3 {
 
 .saved-request-item button:hover {
     color: var(--rose);
+}
+
+/* LIGHT THEME: Rosé Pine Dawn */
+[data-theme="light"] {
+    --base: #faf4ed;
+    --surface: #fffaf3;
+    --overlay: #f2e9e1;
+    --muted: #9893a5;
+    --subtle: #797593;
+    --text: #575279;
+    --love: #b4637a;
+    --rose: #d7827e;
+    --pine: #286983;
+    --foam: #56949f;
+    --iris: #907aa9;
+    --highlight-med: #dfdad9;
+}
+
+.header-wrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 25px;
+    width: 100%;
+}
+
+.header-actions {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+/* Modern Pill Switch Container */
+.theme-switch {
+    position: relative;
+    width: 44px;
+    height: 24px;
+    background: var(--overlay);
+    border-radius: 12px;
+    border: 1px solid var(--highlight-med);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    padding: 2px;
+    box-sizing: border-box;
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+.theme-switch:hover {
+    border-color: var(--subtle);
+}
+
+/* The Sliding Circle (Thumb) */
+.theme-switch-thumb {
+    width: 18px;
+    height: 18px;
+    background: var(--text);
+    border-radius: 50%;
+    /* Smooth cubic-bezier for that premium "snap" feel */
+    transition: transform 0.3s cubic-bezier(0.4, 0.0, 0.2, 1), background-color 0.3s ease;
+}
+
+/* Light Theme Overrides for the Switch */
+[data-theme="light"] .theme-switch {
+    background: var(--surface);
+    border-color: var(--pine);
+}
+
+[data-theme="light"] .theme-switch-thumb {
+    transform: translateX(20px); /* Slide it to the right */
+    background: var(--pine);
+}
+
+.app-footer {
+    margin-top: auto; /* Pushes the footer to the bottom */
+    padding-top: 20px;
+    margin-top: 40px;
+    border-top: 1px solid var(--overlay);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: var(--muted);
+    font-size: 13px;
+}
+
+.footer-copyright {
+    display: flex;
+    align-items: center;
+}
+
+.social-links {
+    display: flex;
+    gap: 16px;
+    align-items: center;
+}
+
+.social-link {
+    color: var(--subtle);
+    transition: color 0.2s ease, transform 0.2s ease;
+    display: flex;
+}
+
+.social-link:hover {
+    transform: translateY(-2px);
+}
+
+/* Specific Rosé Pine Hover Colors */
+.social-link.github:hover {
+    color: var(--text);
+}
+
+.social-link.instagram:hover {
+    color: var(--love);
+}
+
+.social-link.linkedin:hover {
+    color: var(--iris);
 }
