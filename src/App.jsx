@@ -128,6 +128,191 @@ function App() {
     setHeaders(headers.filter((_, i) => i !== index));
   };
 
+  const handleBodyKeyDown = (e) => {
+    const target = e.target;
+    const { selectionStart, selectionEnd, value } = target;
+
+    // 1. Tab Indentation
+    if (e.key === "Tab") {
+      e.preventDefault();
+      const tabStr = "  "; // 2 spaces
+
+      if (!e.shiftKey) {
+        // Indent: Insert 2 spaces
+        const newValue =
+          value.substring(0, selectionStart) +
+          tabStr +
+          value.substring(selectionEnd);
+        
+        setBody(newValue);
+        
+        setTimeout(() => {
+          target.selectionStart = target.selectionEnd = selectionStart + tabStr.length;
+        }, 0);
+      } else {
+        // Outdent: Remove 2 spaces of leading indentation on the current line
+        const lineStart = value.lastIndexOf("\n", selectionStart - 1) + 1;
+        const lineText = value.substring(lineStart, selectionStart);
+        
+        if (lineText.startsWith(tabStr)) {
+          const newValue =
+            value.substring(0, lineStart) +
+            lineText.substring(tabStr.length) +
+            value.substring(selectionStart);
+            
+          setBody(newValue);
+          
+          setTimeout(() => {
+            target.selectionStart = target.selectionEnd = Math.max(
+              lineStart,
+              selectionStart - tabStr.length
+            );
+          }, 0);
+        }
+      }
+      return;
+    }
+
+    // 2. Auto-close brackets/braces/quotes
+    const pairs = {
+      "{": "}",
+      "[": "]",
+      "(": ")",
+      '"': '"',
+      "'": "'",
+      "`": "`",
+    };
+
+    if (pairs[e.key] !== undefined) {
+      e.preventDefault();
+      const openChar = e.key;
+      const closeChar = pairs[openChar];
+
+      // If typing a quote/bracket and cursor is already right before the matching closing character, just move cursor forward
+      if (
+        (openChar === '"' || openChar === "'" || openChar === "`" || openChar === "}" || openChar === "]" || openChar === ")") &&
+        value.charAt(selectionStart) === openChar
+      ) {
+        setTimeout(() => {
+          target.selectionStart = target.selectionEnd = selectionStart + 1;
+        }, 0);
+        return;
+      }
+
+      const selection = value.substring(selectionStart, selectionEnd);
+      const newValue =
+        value.substring(0, selectionStart) +
+        openChar +
+        selection +
+        closeChar +
+        value.substring(selectionEnd);
+
+      setBody(newValue);
+
+      setTimeout(() => {
+        target.selectionStart = selectionStart + 1;
+        target.selectionEnd = selectionEnd + 1;
+      }, 0);
+      return;
+    }
+
+    // Move cursor past closing character if typed directly
+    const closingChars = ["}", "]", ")"];
+    if (closingChars.includes(e.key) && value.charAt(selectionStart) === e.key) {
+      e.preventDefault();
+      setTimeout(() => {
+        target.selectionStart = target.selectionEnd = selectionStart + 1;
+      }, 0);
+      return;
+    }
+
+    // 3. Backspace pair deletion
+    if (e.key === "Backspace") {
+      const charBefore = value.charAt(selectionStart - 1);
+      const charAfter = value.charAt(selectionStart);
+      
+      const isPair = 
+        (charBefore === "{" && charAfter === "}") ||
+        (charBefore === "[" && charAfter === "]") ||
+        (charBefore === "(" && charAfter === ")") ||
+        (charBefore === '"' && charAfter === '"') ||
+        (charBefore === "'" && charAfter === "'") ||
+        (charBefore === "`" && charAfter === "`");
+        
+      if (isPair && selectionStart === selectionEnd) {
+        e.preventDefault();
+        const newValue =
+          value.substring(0, selectionStart - 1) +
+          value.substring(selectionStart + 1);
+        setBody(newValue);
+        setTimeout(() => {
+          target.selectionStart = target.selectionEnd = selectionStart - 1;
+        }, 0);
+        return;
+      }
+    }
+
+    // 4. Auto-indent on Enter
+    if (e.key === "Enter") {
+      e.preventDefault();
+      
+      // Find the current line start
+      const lineStart = value.lastIndexOf("\n", selectionStart - 1) + 1;
+      const currentLine = value.substring(lineStart, selectionStart);
+      
+      // Get the leading whitespace of the current line
+      const whitespaceMatch = currentLine.match(/^\s*/);
+      const whitespace = whitespaceMatch ? whitespaceMatch[0] : "";
+      
+      // Check if cursor is between a matching pair
+      const charBefore = value.charAt(selectionStart - 1);
+      const charAfter = value.charAt(selectionStart);
+      const isBetweenPair = 
+        (charBefore === "{" && charAfter === "}") ||
+        (charBefore === "[" && charAfter === "]") ||
+        (charBefore === "(" && charAfter === ")");
+        
+      if (isBetweenPair) {
+        const extraIndent = "  ";
+        const insertion = "\n" + whitespace + extraIndent + "\n" + whitespace;
+        const newValue =
+          value.substring(0, selectionStart) +
+          insertion +
+          value.substring(selectionEnd);
+          
+        setBody(newValue);
+        
+        setTimeout(() => {
+          target.selectionStart = target.selectionEnd = selectionStart + whitespace.length + extraIndent.length + 1;
+        }, 0);
+      } else {
+        // Check if current line ends with opening bracket/brace to auto-indent further
+        const trimmedLine = currentLine.trim();
+        let extraIndent = "";
+        if (
+          trimmedLine.endsWith("{") ||
+          trimmedLine.endsWith("[") ||
+          trimmedLine.endsWith("(")
+        ) {
+          extraIndent = "  ";
+        }
+
+        const insertion = "\n" + whitespace + extraIndent;
+        const newValue =
+          value.substring(0, selectionStart) +
+          insertion +
+          value.substring(selectionEnd);
+          
+        setBody(newValue);
+        
+        setTimeout(() => {
+          target.selectionStart = target.selectionEnd = selectionStart + insertion.length;
+        }, 0);
+      }
+      return;
+    }
+  };
+
   async function handleRequest(e) {
     e.preventDefault();
     setResponse("CURLing...");
@@ -326,6 +511,7 @@ function App() {
             className="body-textarea"
             value={body}
             onChange={(e) => setBody(e.target.value)}
+            onKeyDown={handleBodyKeyDown}
             spellCheck="false"
             placeholder='{"key": "value"}'
           />
